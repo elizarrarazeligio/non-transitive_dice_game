@@ -1,14 +1,9 @@
-var AsciiTable = require("ascii-table");
+const Table = require("./components/Table");
+const WinProbability = require("./components/WinProbability");
 
-const dices = process.argv.slice(2).map((dice) => dice.split(","));
+const dices = process.argv.slice(2);
+const table = new Table(dices);
+const prob = new WinProbability();
 
-console.log(dices);
-
-const table = new AsciiTable("A Title");
-table
-  .setHeading("", "Name", "Age")
-  .addRow(1, "Bob", 52)
-  .addRow(2, "John", 34)
-  .addRow(3, "Jim", 83);
-
-console.log(table.toString());
+table.showTable();
+console.log(prob.countWins([1, 1, 6, 6, 8, 8], [2, 2, 4, 4, 9, 9]));
