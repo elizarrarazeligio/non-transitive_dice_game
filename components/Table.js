@@ -1,16 +1,17 @@
 const AsciiTable = require("ascii-table");
 
 class Table {
-  constructor(dices) {
-    this.dices = dices;
+  constructor({ dices, probCalc }) {
+    this._dices = dices;
+    this._probCalc = probCalc;
   }
 
   _getTableInfo() {
     let h = ["User Dice"];
     let r = [];
-    this.dices.map((i) => {
-      h.push(i);
-      r.push([i, "Hola", "Hola", "Hola"]);
+    this._dices.map((dice, i, arr) => {
+      h.push(dice);
+      r.push(this._probCalc(dice, arr));
     });
     return { h, r };
   }
@@ -22,7 +23,6 @@ class Table {
       rows: r,
     });
 
-    console.log(this.dices);
     console.log(table.toString());
   }
 }
