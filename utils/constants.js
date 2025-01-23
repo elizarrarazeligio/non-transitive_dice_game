@@ -1,6 +1,5 @@
 const Table = require("../components/Table");
 const WinProbability = require("../components/WinProbability");
-const FairNumber = require("../components/FairNumber");
 const RandomKey = require("../components/RandomKey");
 const UserInput = require("../components/UserInput");
 
