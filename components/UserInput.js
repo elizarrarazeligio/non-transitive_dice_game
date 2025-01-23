@@ -1,16 +1,13 @@
-class UserInput {
-  async _question(hind) {
-    return new Promise((r) => {
-      rl.question("Your value:", r);
-    });
-  }
+const readline = require("readline");
+const rl = readline.createInterface(process.stdin, process.stdout);
 
-  async main() {
-    console.log("Start");
-    const value = await _question("Your value:");
-    console.log("Your value is " + value);
-    console.log("Finish");
-    rl.close();
+class UserInput {
+  question(q) {
+    return new Promise((resolve) => {
+      rl.question(q, (ans) => {
+        resolve(ans);
+      });
+    });
   }
 }
 

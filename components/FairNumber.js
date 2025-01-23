@@ -1,15 +1,8 @@
 const crypto = require("node:crypto");
 
 class FairNumber {
-  constructor(key) {
-    this._key = key;
-  }
-
-  generateHmac(choice) {
-    return crypto
-      .createHmac("sha3-256", this._key)
-      .update(choice)
-      .digest("hex");
+  generateHmac(choice, key) {
+    return crypto.createHmac("sha3-256", key).update(choice).digest("hex");
   }
 }
 
