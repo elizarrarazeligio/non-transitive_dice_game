@@ -7,7 +7,7 @@ class Table {
   }
 
   _getTableInfo() {
-    let h = ["User Dice"];
+    let h = ["User Dice ->"];
     let r = [];
     this._dices.map((dice, i, arr) => {
       h.push(dice);
@@ -22,7 +22,10 @@ class Table {
       heading: h,
       rows: r,
     });
-
+    console.log("Hint:");
+    console.log(
+      "Each register shows the probability of losing against the dice in its corresponding row..."
+    );
     console.log(table.toString());
   }
 }

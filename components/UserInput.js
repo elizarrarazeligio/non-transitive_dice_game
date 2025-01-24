@@ -5,9 +5,13 @@ class UserInput {
   question(q) {
     return new Promise((resolve) => {
       rl.question(q, (ans) => {
-        resolve(ans);
+        resolve(isNaN(ans) ? ans : parseInt(ans));
       });
     });
+  }
+
+  close() {
+    rl.close();
   }
 }
 

@@ -12,6 +12,7 @@
   "author": "Eligio Elizarraraz Molina",
   "license": "ISC",
   "devDependencies": {
-    "ascii-table": "^0.0.9"
+    "ascii-table": "^0.0.9",
+    "random-js": "^2.1.0"
   }
 }

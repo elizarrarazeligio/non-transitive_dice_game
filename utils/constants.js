@@ -3,6 +3,7 @@ const WinProbability = require("../components/WinProbability");
 const RandomKey = require("../components/RandomKey");
 const UserInput = require("../components/UserInput");
 const FairNumber = require("../components/FairNumber");
+const DiceAbstraction = require("../components/DiceAbstraction");
 
 const dices = process.argv.slice(2).map((dice) => dice.split(","));
 const key = new RandomKey();
@@ -19,5 +20,6 @@ const table = new Table({
 });
 const quest = new UserInput();
 const hmac = new FairNumber();
+const game = new DiceAbstraction({ help: () => table.showTable() });
 
-module.exports = { key, table, prob, dices, quest, hmac };
+module.exports = { key, table, prob, dices, quest, hmac, game };
