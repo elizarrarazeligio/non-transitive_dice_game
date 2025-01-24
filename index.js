@@ -1,20 +1,4 @@
-const { key, dices, quest, game } = require("./utils/constants.js");
-
-const computer = {
-  dice: [],
-  sel1: 0,
-  sel2: 0,
-  throw: 0,
-};
-
-const user = {
-  dice: [],
-  sel1: 0,
-  sel2: 0,
-  throw: 0,
-};
-
-let fair = { key: "", hmac: "" };
+const { key, dices, quest, game, computer, user, fair } = require("./utils/constants.js");
 
 // Main program
 const main = async () => {
@@ -45,11 +29,38 @@ const main = async () => {
 
   // Dice selection
   if (computer.sel1 === user.sel1) {
-    [user.sel2, user.dice] = await game.userSelection(user, dices, quest);
-    [computer.sel2, computer.dice] = game.computerSelection(computer, game.newDices(dices, user));
+    [user.sel2, user.dice] = await game.userDice(user, dices, quest);
+    [computer.sel2, computer.dice] = game.computerDice(computer, game.newDices(dices, user));
   } else {
-    [computer.sel2, computer.dice] = game.computerSelection(computer, dices);
-    [user.sel2, user.dice] = await game.userSelection(user, game.newDices(dices, computer), quest);
+    [computer.sel2, computer.dice] = game.computerDice(computer, dices);
+    [user.sel2, user.dice] = await game.userDice(user, game.newDices(dices, computer), quest);
+  }
+
+  // Dice throws
+  // HMAC - KEY generation for computer selection
+  for (let i = 1; i <= 2; i++) {
+    console.log(`It's time for ${i%2 == 0 ? "your":"my" } throw.`)
+
+    // Dice abstraction and HMAC - Key fairness generation
+    computer.throw = game.randomNumber(0, computer.dice.length -1);
+    [fair.hmac, fair.key] = await key.hmacKeyPair(computer.throw);
+    user.throw = await game.diceThrow(user, fair, quest);
+    console.log(`My number is ${computer.throw}`);
+    console.log(`(KEY: ${fair.key})`);
+
+    // Throws result
+    let throwRes = (computer.throw + user.throw) % 6;
+    (i%2 == 0 ? (user.diceValue = user.dice[throwRes]) : (computer.diceValue = computer.dice[throwRes]))
+    console.log(`The result is ${computer.throw} + ${user.throw} = ${(throwRes)} (mod 6)`);
+    console.log(`${i%2 == 0 ? "Your" : "My"} throw is ${i%2 == 0 ? user.diceValue : computer.diceValue}.`)
+  }
+
+  if(user.diceValue > computer.diceValue) {
+    console.log(`You win (${user.diceValue} > ${computer.diceValue})`)
+  } else if (user.diceValue < computer.diceValue) {
+    console.log(`You loose (${user.diceValue} < ${computer.diceValue})`)
+  } else {
+    console.log(`Tie (${user.diceValue} = ${computer.diceValue})`)
   }
 
   quest.close();

@@ -25,4 +25,22 @@ const key = new RandomKey({
   hmac: (value, key) => hmac.generateHmac(value, key),
 });
 
-module.exports = { key, dices, quest, game };
+const computer = {
+  dice: [],
+  sel1: 0,
+  sel2: 0,
+  throw: 0,
+  diceValue: 0,
+};
+
+const user = {
+  dice: [],
+  sel1: 0,
+  sel2: 0,
+  throw: 0,
+  diceValue: 0,
+};
+
+let fair = { key: "", hmac: "" };
+
+module.exports = { key, dices, quest, game, computer, user, fair };
