@@ -13,11 +13,11 @@ const hmac = new FairNumber();
 const table = new Table({
   dices,
   probCalc: (dice, arr) => {
-    let pr = [dice.join()];
+    let row = [dice.join()];
     for (let i = 0; i < dices.length; i++) {
-      pr.push(prob.countWins(dice, arr[i]));
+      row.push(prob.countWins(dice, arr[i]));
     }
-    return pr;
+    return row;
   },
 });
 const game = new DiceAbstraction({ help: () => table.showTable() });
