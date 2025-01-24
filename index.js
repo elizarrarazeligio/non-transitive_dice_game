@@ -21,10 +21,10 @@ let fair = { key: "", hmac: "" };
 const main = async () => {
   // intro
   console.log("Let's determine who makes the first move.");
-  computer.sel1 = game.randomNumber(0, 1);
   console.log("I selected a random value in the range of 0 - 1...");
 
-  // HMAC - KEY generation
+  // HMAC - KEY generation for computer selection
+  computer.sel1 = game.randomNumber(0, 1);
   [fair.hmac, fair.key] = await key.hmacKeyPair(computer.sel1);
 
   // Selection intro
@@ -47,17 +47,10 @@ const main = async () => {
   // Dice selection
   if (computer.sel1 === user.sel1) {
     [user.sel2, user.dice] = await game.userSelection(user, dices, quest);
-    [computer.sel2, computer.dice] = game.computerSelection(
-      computer,
-      game.newDices(dices, user)
-    );
+    [computer.sel2, computer.dice] = game.computerSelection(computer, game.newDices(dices, user));
   } else {
     [computer.sel2, computer.dice] = game.computerSelection(computer, dices);
-    [user.sel2, user.dice] = await game.userSelection(
-      user,
-      game.newDices(dices, computer),
-      quest
-    );
+    [user.sel2, user.dice] = await game.userSelection(user, game.newDices(dices, computer), quest);
   }
 
   quest.close();
