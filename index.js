@@ -1,5 +1,7 @@
 const { key, dices, quest, game, computer, user, fair, error } = require("./utils/constants.js");
 
+error.initialInput(dices);
+
 // Main program
 const main = async () => {
   // intro
@@ -50,9 +52,9 @@ const main = async () => {
     console.log(`(KEY: ${fair.key})`);
 
     // Throws result
-    let throwRes = (computer.throw + user.throw) % 6;
+    let throwRes = (computer.throw + user.throw) % user.dice.length;
     (i%2 == 0 ? (user.diceValue = user.dice[throwRes]) : (computer.diceValue = computer.dice[throwRes]))
-    console.log(`The result is ${computer.throw} + ${user.throw} = ${(throwRes)} (mod 6)`);
+    console.log(`The result is ${computer.throw} + ${user.throw} = ${(throwRes)} (mod ${user.dice.length})`);
     console.log(`${i%2 == 0 ? "Your" : "My"} throw is ${i%2 == 0 ? user.diceValue : computer.diceValue}.`)
   }
 
