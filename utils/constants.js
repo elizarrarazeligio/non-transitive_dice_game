@@ -4,6 +4,7 @@ const RandomKey = require("../components/RandomKey");
 const UserInput = require("../components/UserInput");
 const FairNumber = require("../components/FairNumber");
 const DiceAbstraction = require("../components/DiceAbstraction");
+const ErrorValidation = require("../components/ErrorValidation");
 
 const dices = process.argv.slice(2).map((dice) => dice.split(","));
 
@@ -20,10 +21,14 @@ const table = new Table({
     return row;
   },
 });
-const game = new DiceAbstraction({ help: () => table.showTable() });
+const game = new DiceAbstraction({
+  help: () => table.showTable(),
+  error: (arr, sel, message) => error.handle(arr, sel, message),
+});
 const key = new RandomKey({
   hmac: (value, key) => hmac.generateHmac(value, key),
 });
+const error = new ErrorValidation();
 
 const computer = {
   dice: [],
@@ -43,4 +48,4 @@ const user = {
 
 let fair = { key: "", hmac: "" };
 
-module.exports = { key, dices, quest, game, computer, user, fair };
+module.exports = { key, dices, quest, game, computer, user, fair, error };

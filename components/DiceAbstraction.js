@@ -2,8 +2,9 @@ const { Random, dice } = require("random-js");
 const random = new Random();
 
 class DiceAbstraction {
-  constructor({ help }) {
+  constructor({ help, error }) {
     this._help = help;
+    this._error = error;
   }
 
   randomNumber(low, high) {
@@ -29,8 +30,11 @@ class DiceAbstraction {
       console.log(`${i} - ${arr[i].length != 1 ? arr[i] : i}`);
     }
     this.showOptions();
-    sel = await quest.question("Your selection: ");
-    this.handleOptions(sel);
+    while (true) {
+      sel = await quest.question("Your selection: ");
+      this.handleOptions(sel);
+      if (this._error(arr, arr[sel] || sel)) break;
+    }
     value && (value = arr[sel]);
     return [sel, value];
   }

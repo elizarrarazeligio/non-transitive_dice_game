@@ -1,4 +1,4 @@
-const { key, dices, quest, game, computer, user, fair } = require("./utils/constants.js");
+const { key, dices, quest, game, computer, user, fair, error } = require("./utils/constants.js");
 
 // Main program
 const main = async () => {
@@ -18,10 +18,11 @@ const main = async () => {
   game.showOptions();
 
   // First selection loop
-  do {
+  while (true) {
     user.sel1 = await quest.question("Your selection: ");
     game.handleOptions(user.sel1);
-  } while (user.sel1 != 1 && user.sel1 != 0);
+    if(error.handle([0, 1], user.sel1)) break;
+  }
 
   // Show selection and key
   console.log(`My selection: ${computer.sel1}`);
