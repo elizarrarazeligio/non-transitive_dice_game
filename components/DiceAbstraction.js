@@ -47,6 +47,12 @@ class DiceAbstraction {
   newDices(diceArr, player) {
     return diceArr.filter((dice) => dice != player.dice);
   }
+
+  async diceThrow({ dice }) {
+    console.log(
+      `I selected a random value in the range 0 - ${dice.length - 1}.`
+    );
+  }
 }
 
 module.exports = DiceAbstraction;

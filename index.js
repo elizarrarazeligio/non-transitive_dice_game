@@ -1,13 +1,5 @@
 const { bool } = require("random-js");
-const {
-  key,
-  table,
-  prob,
-  dices,
-  quest,
-  hmac,
-  game,
-} = require("./utils/constants.js");
+const { key, dices, quest, game } = require("./utils/constants.js");
 
 const computer = {
   dice: [],
@@ -23,6 +15,8 @@ const user = {
   throw: 0,
 };
 
+let fair = { key: "", hmac: "" };
+
 // Main program
 const main = async () => {
   // intro
@@ -31,15 +25,14 @@ const main = async () => {
   console.log("I selected a random value in the range of 0 - 1...");
 
   // HMAC - KEY generation
-  let hmacKey = await key.generateKey().then((key) => {
-    console.log(`(HMAC: ${hmac.generateHmac(`${computer.sel1}`, key)})`);
+  [fair.hmac, fair.key] = await key.hmacKeyPair(computer.sel1);
 
-    console.log("Try to guess my selection.");
-    console.log("0 - 0");
-    console.log("1 - 1");
-    game.showOptions();
-    return key;
-  });
+  // Selection intro
+  console.log(`(HMAC: ${fair.hmac})`);
+  console.log("Try to guess my selection.");
+  console.log("0 - 0");
+  console.log("1 - 1");
+  game.showOptions();
 
   // First selection loop
   do {
@@ -47,9 +40,9 @@ const main = async () => {
     game.handleOptions(user.sel1);
   } while (user.sel1 != 1 && user.sel1 != 0);
 
-  // Show key
+  // Show selection and key
   console.log(`My selection: ${computer.sel1}`);
-  console.log(`(KEY: ${hmacKey})`);
+  console.log(`(KEY: ${fair.key})`);
 
   // Dice selection
   if (computer.sel1 === user.sel1) {

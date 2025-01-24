@@ -6,8 +6,10 @@ const FairNumber = require("../components/FairNumber");
 const DiceAbstraction = require("../components/DiceAbstraction");
 
 const dices = process.argv.slice(2).map((dice) => dice.split(","));
-const key = new RandomKey();
+
 const prob = new WinProbability();
+const quest = new UserInput();
+const hmac = new FairNumber();
 const table = new Table({
   dices,
   probCalc: (dice, arr) => {
@@ -18,8 +20,9 @@ const table = new Table({
     return pr;
   },
 });
-const quest = new UserInput();
-const hmac = new FairNumber();
 const game = new DiceAbstraction({ help: () => table.showTable() });
+const key = new RandomKey({
+  hmac: (value, key) => hmac.generateHmac(value, key),
+});
 
-module.exports = { key, table, prob, dices, quest, hmac, game };
+module.exports = { key, dices, quest, game };
