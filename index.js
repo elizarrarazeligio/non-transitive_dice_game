@@ -1,4 +1,3 @@
-const { bool } = require("random-js");
 const { key, dices, quest, game } = require("./utils/constants.js");
 
 const computer = {
