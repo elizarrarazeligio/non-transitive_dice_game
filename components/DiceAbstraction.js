@@ -30,8 +30,8 @@ class DiceAbstraction {
       console.log(`${i} - ${diceArr[i]}`);
     }
     this.showOptions();
-    this.handleOptions();
     sel = await quest.question("Your selection: ");
+    this.handleOptions(sel);
     dice = diceArr[sel];
     console.log(`You choose the [${dice}] dice.`);
     return [sel, dice];
